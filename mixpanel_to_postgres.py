@@ -29,14 +29,16 @@ def connect_db (hostname,db,name,pw):
 def create_db_tables (con,cur):
     try:
         #Creating tables
-        print "Creating Events definition table if does not exist..."
         cur.execute("CREATE TABLE IF NOT EXISTS event_def (event_id serial PRIMARY KEY , event_name VARCHAR(50))")
-        print "Creating Property definition table if does not exist..."     
         cur.execute("CREATE TABLE IF NOT EXISTS property_def (property_id serial PRIMARY KEY, property_name VARCHAR(50), event_id integer REFERENCES event_def);")
-        print "Creating Property transaction table if does not exist..."
-        cur.execute("CREATE TABLE IF NOT EXISTS property_trans (trans_id serial PRIMARY KEY, property_value text, property_id integer REFERENCES property_def);")
-        print "Creating Event transaction table if does not exist..."
+        cur.execute("CREATE TABLE IF NOT EXISTS property_trans (trans_id bigserial PRIMARY KEY, property_value text, property_id integer REFERENCES property_def);")
         cur.execute("CREATE TABLE IF NOT EXISTS event_trans (trans_id serial PRIMARY KEY, event_id integer REFERENCES event_def, timestamp bigint);")
+        cur.execute("CREATE TABLE IF NOT EXISTS funnel_trans (trans_id serial PRIMARY KEY, funnel_id integer,funnel_name VARCHAR(200),from_date date,to_date date,\
+                    completion integer,starting_amount integer,steps integer,worst integer,\
+                    step_1_goal VARCHAR(50),step_1_count integer,step_1_overall_conv_ratio decimal, step_1_step_conv_ratio decimal,\
+                    step_2_goal VARCHAR(50),step_2_count integer,step_2_overall_conv_ratio decimal, step_2_step_conv_ratio decimal,\
+                    step_3_goal VARCHAR(50),step_3_count integer,step_3_overall_conv_ratio decimal, step_3_step_conv_ratio decimal,\
+                    step_4_goal VARCHAR(50),step_4_count integer,step_4_overall_conv_ratio decimal, step_4_step_conv_ratio decimal);")
         print "Done creating tables."
         con.commit()
     except psycopg2.DatabaseError, e:

@@ -1,5 +1,4 @@
 #This is the main class
-
 from datetime import date,timedelta, datetime
 import pull_funnels, raw_export,mixpanel_to_postgres
 import json
@@ -15,8 +14,9 @@ timing_file = open('timing.txt', 'w')
 
 #More logs
 raw_export_data_file = open('data.txt','w')
-mixpanel_data_file = open('mixpanel_sample.txt','r')
+#mixpanel_data_file = open('mixpanel_sample.txt','r')
 
+"""
 #Export raw event data from Mixpanel
 print "Exporting raw event data from Mixpanel..."
 export_start_date = "2015-01-30"
@@ -30,26 +30,70 @@ raw_export_data_file.write(unicode(event_dicts))
 raw_export_data_file.close()
 print "Raw data export completed successfully!"
 print str(len(event_dicts))+" event(s) exported."
+"""
+
+#Pull funnel list
+print "Pulling funnel list, request sent to Mixpanel.com:"
+funnel_list = pull_funnels.listFunnels(api_key,api_secret)
+
+#Set parameters to pull funnel data
+length  = 60
+interval = 1
+seven_days_ago = date.today()-timedelta(days=7)
+yesterday = date.today()-timedelta(days=1)
 
 #Database operations
 #1. Connect to Postgres database
-#2. Create required tables if they do not yet exist
-#3. Update tables
-
 hostname = "localhost"
 db= "postgres"
 name = "postgres"
 pw = "test"
 
 con,cur = mixpanel_to_postgres.connect_db(hostname,db,name,pw)
+
+#2. Create required tables if they do not yet exist
 mixpanel_to_postgres.create_db_tables(con,cur)
 
-max_events = number_of_events
-timing_file.write("Number of events writing to postgres: "+str(max_events)+"\n")
+#3. Update tables
 
+#timing_file.write("Number of events writing to postgres: "+str(max_events)+"\n")
 
 try:   
+    #Update funnel tables
+    for each in funnel_list:
+        funnel_id,funnel_name = each["funnel_id"],each["name"]        
+        funnel_data = pull_funnels.pullFunnels(funnel_id,length,interval,seven_days_ago,yesterday,api_key,api_secret);
+        #print json.dumps(funnel_data)
+        for date in funnel_data["meta"]["dates"]:
+            print "Current date is:" + date
+            date_data = funnel_data["data"][date]
+            completion = funnel_data["data"][date]["analysis"]["completion"]
+            starting_amount = funnel_data["data"][date]["analysis"]["starting_amount"]
+            steps = funnel_data["data"][date]["analysis"]["steps"]
+            worst = funnel_data["data"][date]["analysis"]["worst"]
+            print "Comp:"+str(completion)+"\nStarting amt: "+str(starting_amount)+"\nSteps:"+str(steps)+"W:"+str(worst)
+            #Loop through steps, cater for max of 4 steps (to match database schema)
+            step_data = [["",0,0.0,0.0],["",0,0.0,0.0],["",0,0.0,0.0],["",0,0.0,0.0]] #Cater for a maximum of 4 steps
+            steps_dicts = date_data["steps"]
+            for step in range(steps):
+                step_data[step] = [steps_dicts[step]["goal"],steps_dicts[step]["count"],
+                                   steps_dicts[step]["overall_conv_ratio"],steps_dicts[step]["step_conv_ratio"]]
+            print "Array of data for each step:"
+            print step_data
+            #Insert row for this date and funnel into table
+            cur.execute("INSERT INTO funnel_trans(funnel_id, funnel_name,from_date,to_date, completion,starting_amount,steps,\
+                        worst, step_1_goal, step_1_count, step_1_overall_conv_ratio, step_1_step_conv_ratio,\
+                        step_2_goal, step_2_count, step_2_overall_conv_ratio, step_2_step_conv_ratio,\
+                        step_3_goal, step_3_count, step_3_overall_conv_ratio, step_3_step_conv_ratio,\
+                        step_4_goal, step_4_count, step_4_overall_conv_ratio, step_4_step_conv_ratio) \
+                        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
+                        (funnel_id,funnel_name,date,date,completion,starting_amount,steps,worst,step_data[0][0],step_data[0][1],
+                        step_data[0][2],step_data[0][3],step_data[1][0],step_data[1][1],step_data[1][2],step_data[1][3],
+                        step_data[2][0],step_data[2][1],step_data[2][2],step_data[2][3],
+                        step_data[3][0],step_data[3][1],step_data[3][2],step_data[3][3]))
+    con.commit()   
     #Update event definition and event transaction table
+    """
     print "Updating events tables..."
     for each_event in event_dicts:
         event_name = each_event["event"]
@@ -102,6 +146,9 @@ try:
     timing_file.write("Completed property table writing at: "+str(datetime.now())+"\n")       
     con.commit()
     timing_file.write("Commited to database at: "+str(datetime.now())+"\n")
+    """
+
+    
 
     print "Update complete and changes committed to database."
     
