@@ -52,7 +52,7 @@ class Mixpanel(object):
         params['sig'] = self.hash_args(params)
 
         request_url = '/'.join([self.ENDPOINT, str(self.VERSION)] + methods) + '/?' + self.unicode_urlencode(params)
-        print request_url
+        print request_url+"\n"
         request = urllib2.urlopen(request_url, timeout=120)
         data = request.read()
 
