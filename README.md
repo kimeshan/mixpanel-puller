@@ -11,10 +11,10 @@ It consist of two main runnable scripts:
 
 2. raw_export_script.py - Pulls raw event data from Mixpanel for the previous day (script to run daily) and inserts it into 4 tables: 
 
-* event_def: Event definitions table
-* event_trans: Event transactions table.
-* property_def: Property definitions table.
-* property_trans: Property transactions table.
+    * *event_def*: Event definitions table
+    * *event_trans*: Event transactions table.
+    * *property_def*: Property definitions table.
+    * *property_trans*: Property transactions table.
 
 ## How do I get set up?
 
@@ -30,9 +30,9 @@ These two scripts will call:
 
 1. mixpanel_puller.py - this is called by the scripts in order to pull the relevant data from Mixpanel.com. It contains three methods: 
 
-*pull_raw_export - pulls raw event data from Mixpanel.
-*list_funnels - pulls a list of funnels with funnel_id and funnel_name from Mixpanel.
-*pull_funnels - pulls funnel data for a given funnel_id, one of the parameters it takes.
+    * *pull_raw_export* - pulls raw event data from Mixpanel.
+    * *list_funnels* - pulls a list of funnels with funnel_id and funnel_name from Mixpanel.
+    * *pull_funnels* - pulls funnel data for a given funnel_id, one of the parameters it takes.
 
 2. to_postgres.py - this is called by the scripts to connect to the database and create tables. It contains 3 methods:
 **connect_db* - accepts parameters hostname, db (database name), name (username) and pw (password) in order to connect to the Postgres database.
