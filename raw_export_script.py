@@ -18,7 +18,7 @@ timing_file = open('timing.txt', 'w')
 #Export raw event data from Mixpanel
 print "Exporting raw event data from Mixpanel..."
 export_start_date = date.today()-timedelta(days=1) #Yesterday
-export_end_date = date.today()-timedelta(days=1) #Yesterdat
+export_end_date = date.today()-timedelta(days=1) #Yesterday
 timing_file.write("Started exporting raw data:"+str(datetime.now())+"\n")
 event_dicts = mixpanel_puller.pull_raw_export(export_start_date, export_end_date,api_key,api_secret)
 #event_dicts = ast.literal_eval(mixpanel_data_file.read())
