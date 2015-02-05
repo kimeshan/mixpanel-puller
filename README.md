@@ -42,12 +42,12 @@ These two scripts will call:
 
 ####Description of libraries used
 
-    * mixpanel_api: contains Mixpanel API Python library. Inside the folder *mixpanel_api* are the Python library API files for Mipxanel, one used for raw data export (*data_export.py*) and the other (*general.py*) for requesting funnel data. The Mixpanel API uses a slightly different syntax for requesting raw data so therefore has it's own API script which slight differs from the general
-
-    * simplejson - json module for encoding and decoding.
+* mixpanel_api: contains Mixpanel API Python library. Inside the folder *mixpanel_api* are the Python library API files for Mipxanel, one used for raw data export (*data_export.py*) and the other (*general.py*) for requesting funnel data. The Mixpanel API uses a slightly different syntax for requesting raw data so therefore has it's own API script which slight differs from the general
+* simplejson - json module for encoding and decoding.
 
 ###Dependencies
-    * psycopg2: These scripts use psycopg2 which is a Python-Postgres database adaptor which allows PostgreSQL syntax to be used in Python scripts.
+
+**psycopg2:** These scripts use psycopg2 which is a Python-Postgres database adaptor which allows PostgreSQL syntax to be used in Python scripts.
 
 ####How to install psycopg2
 Visit [this page][install] for instructions on how to install on Linux, Windows or Mac OS X. On Linux servers or PC's running on Debian, Ubuntu and other deb-based distributions you should just need:
@@ -73,19 +73,20 @@ pip install psycopg2
 The default Mixpanel API key and secret is that provided for BrighterMonday Kenya which is contained in the script files. This does not need to be changed when pulling data from Mixpanel from BrighterMonday Kenya.
 
 To pull data using a different Mixpanel API key and secret simply change the variables:
-    * *api_key* - Line 11 in *funnels_script.py*, Line 9 in *raw_export_script.py*.
-    * *api_secret* - Line 12 in *funnels_script.py*, Line 10 in *raw_export_script.py*.
+* *api_key* - Line 11 in *funnels_script.py*, Line 9 in *raw_export_script.py*.
+* *api_secret* - Line 12 in *funnels_script.py*, Line 10 in *raw_export_script.py*.
 
 ####Postgres database parameters
 **Note: THIS MUST BE CHANGED BEFORE RUNNING ANY SCRIPT**
 The following database parameter variables in each script will have to be changed in order to connect to the correct database:
-    * *hostname*: This is the hostname such as "localhost" or "ec2-54-72-237-86.eu-west-1.compute.amazonaws.com". Change this in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*. 
 
-    * *db*: This is the database name. Change it in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *hostname*: This is the hostname such as "localhost" or "ec2-54-72-237-86.eu-west-1.compute.amazonaws.com". Change this in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+ 
+* *db*: This is the database name. Change it in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
 
-    * *name*: This is the username to connect to the database, Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *name*: This is the username to connect to the database, Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
 
-    * *pw*:This is the password to connect to the database. Change it in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *pw*:This is the password to connect to the database. Change it in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
 
 ##Testing
 
