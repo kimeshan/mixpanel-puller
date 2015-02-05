@@ -1,15 +1,16 @@
 # README
 
-
 ## Introduction
+
+Welcome! 
 
 These Python scripts pull data from Mixpanel using the Mixpanel API. It then extracts the relevant data and inserts it into various tables in a Postgres DB.
 
 It consist of two main runnable scripts:
 
-1. funnels_script.py - Pulls funnel data from Mixpanel for the previous 7 days (script to run once a week) and inserts it into the funnel transactions (funnel_trans) table.
+1. **funnels_script.py** - Pulls funnel data from Mixpanel for the previous 7 days (script to run once a week) and inserts it into the funnel transactions (funnel_trans) table.
 
-2. raw_export_script.py - Pulls raw event data from Mixpanel for the previous day (script to run daily) and inserts it into 4 tables: 
+2. **raw_export_script.py** - Pulls raw event data from Mixpanel for the previous day (script to run daily) and inserts it into 4 tables: 
 
     * *event_def*: Event definitions table
     * *event_trans*: Event transactions table.
@@ -69,32 +70,44 @@ pip install psycopg2
 
 ###What do I need to change before running scripts?
 
-####Mixpanel API and Secret
+For this demo, you will need to make some changes to certain variables (specified below) to the actual .py script files (source code).
+
+Normally parameters such as the API key or database connection details will be passed as arguments through the command line and no changes to the source code will have to be made. Depending on how the scripts will be run, this can be setup quite easily afterwards. 
+
+####Mixpanel API Key and Secret
 The default Mixpanel API key and secret is that provided for BrighterMonday Kenya which is contained in the script files. This does not need to be changed when pulling data from Mixpanel from BrighterMonday Kenya.
 
 To pull data using a different Mixpanel API key and secret simply change the variables:
+
 * *api_key* - Line 11 in *funnels_script.py*, Line 9 in *raw_export_script.py*.
 * *api_secret* - Line 12 in *funnels_script.py*, Line 10 in *raw_export_script.py*.
 
-####Postgres database parameters
+####PostgreSQL database parameters
 **Note: THIS MUST BE CHANGED BEFORE RUNNING ANY SCRIPT**
+
 The following database parameter variables in each script will have to be changed in order to connect to the correct database:
 
 * *hostname*: This is the hostname such as "localhost" or "ec2-54-72-237-86.eu-west-1.compute.amazonaws.com". Change this in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
  
-* *db*: This is the database name. Change it in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *db*: This is the database name. Change it in Line 27 in *funnels_script.py* and Line 33 in *raw_export_script.py*.
 
-* *name*: This is the username to connect to the database, Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *name*: This is the username to connect to the database, Line 28 in *funnels_script.py* and Line 34 in *raw_export_script.py*.
 
-* *pw*:This is the password to connect to the database. Change it in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *pw*: This is the password to connect to the database. Change it in Line 29 in *funnels_script.py* and Line 35 in *raw_export_script.py*.
 
 ##Testing
 
-###Limiting events for speed
-Since the raw data export is pulling over 100 000 events per day, for testing purposes the script is setup to write just the first 1000 to database tables - so the sample results can be seen. This allows the script to complete much faster than it would when pulling 100 000 events and inserting 2.5 million properties.
+###Limiting events
+Since the raw data export is pulling over 100 000 events per day, for testing purposes the script is setup to write just the first 1000 to database tables - so the sample results can be seen quickly. This allows the script to complete much faster than it would when pulling 100 000 events and inserting 2.5 million properties.
 
-##Once you have installed the dependencies and changed the relevant variables as described above, go ahead and run the scripts!
+###Date ranges
+By default **funnels_script.py** will pull funnel data for the previous seven days while the **raw_export_script.py** will pull event data for the previous day. These date ranges can also be changed by editing the appropriate variables, so that data for other date ranges can be pulled as required.
 
-After running *funnels_script.py* and *raw_export_script.py*, you should see 5 tables in your Postgres database populated with the relevant columns and Mixpanel data.
+Furthermore, we can also be easily modify the source code to pass the date ranges as arguments from the command line if that is preferred. For testing purposes and this demo, the default date ranges should be sufficient and meets the specification provided.
 
-[install]: http://initd.org/psycopg/docs/install.html  "How to install Psycopg2"
+##Lift off!
+Once you have installed the dependencies and changed the relevant variables as described above, go ahead and run the scripts!
+
+After running *funnels_script.py* and *raw_export_script.py*, you should see 5 tables in your Postgres database beautifully populated with the relevant columns and Mixpanel data.
+
+[install]: http://initd.org/psycopg/docs/install.html  "How to Install Psycopg2"
