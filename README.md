@@ -7,9 +7,9 @@ These Python scripts pull data from Mixpanel using the Mixpanel API. It then ext
 
 It consist of two main runnable scripts:
 
-1. funnels_script.py - Pulls funnel data from Mixpanel and inserts it into the funnel transactions (funnel_trans) table.
+1. funnels_script.py - Pulls funnel data from Mixpanel for the previous 7 days (script to run once a week) and inserts it into the funnel transactions (funnel_trans) table.
 
-2. raw_export_script.py - Pulls raw event data from Mixpanel for the previous day and inserts it into 4 tables: 
+2. raw_export_script.py - Pulls raw event data from Mixpanel for the previous day (script to run daily) and inserts it into 4 tables: 
 *event_def: Event definitions table
 *event_trans: Event transactions table.
 *property_def: Property definitions table.
@@ -80,6 +80,6 @@ Since the raw data export is pulling over 100 000 events per day, for testing pu
 
 ##Once you have installed the dependencies and changed the relevant variables as described above, go ahead and run the scripts!
 
-After running *funnels_scripy.py* and *raw_export_script.py*, you should see 5 tables in your Postgres database populated with the relevant columns and Mixpanel data.
+After running *funnels_script.py* and *raw_export_script.py*, you should see 5 tables in your Postgres database populated with the relevant columns and Mixpanel data.
 
 [install]: http://initd.org/psycopg/docs/install.html  "How to instal Psycopg2"
