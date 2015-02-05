@@ -28,9 +28,9 @@ The two main scripts run from the following Python files:
 These two scripts will call:
 
 1. mixpanel_puller.py - this is called by the scripts in order to pull the relevant data from Mixpanel.com. It contains three methods: 
-**pull_raw_export* - pulls raw event data from Mixpanel.
-**list_funnels* - pulls a list of funnels with funnel_id and funnel_name from Mixpanel.
-**pull_funnels* - pulls funnel data for a given funnel_id, one of the parameters it takes.
+*pull_raw_export - pulls raw event data from Mixpanel.
+*list_funnels - pulls a list of funnels with funnel_id and funnel_name from Mixpanel.
+*pull_funnels - pulls funnel data for a given funnel_id, one of the parameters it takes.
 
 2. to_postgres.py - this is called by the scripts to connect to the database and create tables. It contains 3 methods:
 **connect_db* - accepts parameters hostname, db (database name), name (username) and pw (password) in order to connect to the Postgres database.
