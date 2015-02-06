@@ -70,14 +70,12 @@ pip install psycopg2
 
 ###What do I need to change before running scripts?
 
-For this demo, you will need to make some changes to certain variables (specified below) to the actual .py script files (source code).
-
-Normally parameters such as the API key or database connection details will be passed as arguments through the command line and no changes to the source code will have to be made. Depending on how the scripts will be run, this can be setup quite easily afterwards. 
+You will need to make some changes to certain variables (specified below) to the actual .py script files (source code) before running any scripts.
 
 ####Mixpanel API Key and Secret
-The default Mixpanel API key and secret is that provided for BrighterMonday Kenya which is contained in the script files. This does not need to be changed when pulling data from Mixpanel from BrighterMonday Kenya.
+In order to start pulling data from your Mixpanel account, you will need your API Key and Secret.
 
-To pull data using a different Mixpanel API key and secret simply change the variables:
+Enter these by simply changing the following variables:
 
 * *api_key* - Line 11 in *funnels_script.py*, Line 9 in *raw_export_script.py*.
 * *api_secret* - Line 12 in *funnels_script.py*, Line 10 in *raw_export_script.py*.
@@ -87,7 +85,7 @@ To pull data using a different Mixpanel API key and secret simply change the var
 
 The following database parameter variables in each script will have to be changed in order to connect to the correct database:
 
-* *hostname*: This is the hostname such as "localhost" or "ec2-54-72-237-86.eu-west-1.compute.amazonaws.com". Change this in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
+* *hostname*: This is the hostname such as "localhost" or xxx.eu-west-1.compute.amazonaws.com". Change this in Line 26 in *funnels_script.py* and Line 32 in *raw_export_script.py*.
  
 * *db*: This is the database name. Change it in Line 27 in *funnels_script.py* and Line 33 in *raw_export_script.py*.
 
@@ -97,13 +95,8 @@ The following database parameter variables in each script will have to be change
 
 ##Testing
 
-###Limiting events
-Since the raw data export is pulling over 100 000 events per day, for testing purposes the script is setup to write just the first 1000 to database tables - so the sample results can be seen quickly. This allows the script to complete much faster than it would when pulling 100 000 events and inserting 2.5 million properties.
-
 ###Date ranges
 By default **funnels_script.py** will pull funnel data for the previous seven days while the **raw_export_script.py** will pull event data for the previous day. These date ranges can also be changed by editing the appropriate variables, so that data for other date ranges can be pulled as required.
-
-Furthermore, we can also be easily modify the source code to pass the date ranges as arguments from the command line if that is preferred. For testing purposes and this demo, the default date ranges should be sufficient and meets the specification provided.
 
 ##Lift off!
 Once you have installed the dependencies and changed the relevant variables as described above, go ahead and run the scripts!

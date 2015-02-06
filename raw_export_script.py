@@ -6,8 +6,8 @@ import sys,ast
 import psycopg2
 
 #OneAfricaMedia Mixpanel key
-api_key = "215044064e1ec9964ed91c25bf628e73"
-api_secret = "0067413ce68849370bac6b47d34c9f65"
+api_key = "INSERT YOUR MIXPANEL KEY HERE"
+api_secret = "INSERT YOUR MIXPANEL SECRET HERE"
 
 #To log time taken to export all raw event data for the day
 timing_file = open('timing.txt', 'w')
@@ -42,7 +42,7 @@ to_postgres.create_raw_export_tables(con,cur)
 try:   
     #Update event definition and event transaction table    
     print "Updating events tables..."
-    for each_event in event_dicts[0:1000]:
+    for each_event in event_dicts:
         event_name = each_event["event"]
         #Update event def table
         cur.execute("SELECT exists(SELECT * FROM event_def where event_name=%s);",(event_name,))
@@ -61,7 +61,7 @@ try:
     print "Updating property tables..."
     #Update property definition and property transaction table
     print "Percentage completed..."
-    for each_event in event_dicts[0:1000]:
+    for each_event in event_dicts:
         event_count+=1
         cur.execute("SELECT event_id FROM event_def WHERE event_name=%s",(each_event["event"],))
         event_id = cur.fetchone()[0]  

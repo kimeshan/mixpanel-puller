@@ -8,8 +8,8 @@ import psycopg2
 print "Starting script to pull funnel data from Mixpanel and write to database..."
 
 #OneAfricaMedia Mixpanel key
-api_key = "215044064e1ec9964ed91c25bf628e73"
-api_secret = "0067413ce68849370bac6b47d34c9f65"
+api_key = "INSERT YOUR MIXPANEL KEY HERE"
+api_secret = "INSERT YOUR MIXPANEL SECRET HERE"
 
 #Pull funnel list
 print "Pulling funnel list, request sent to Mixpanel.com:"
