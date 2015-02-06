@@ -54,16 +54,12 @@ These two scripts will call:
 Visit [this page][install] for instructions on how to install on Linux, Windows or Mac OS X. On Linux servers or PC's running on Debian, Ubuntu and other deb-based distributions you should just need:
 	
 ```
-#!python
-
 sudo apt-get install python-psycopg2
 ```
 
 Alternatively, install as a Python package using:
 	
 ```
-#!python
-
 pip install psycopg2
 
 ```
