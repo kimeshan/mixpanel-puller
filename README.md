@@ -93,7 +93,7 @@ The following database parameter variables in each script will have to be change
 ### Date ranges
 By default **funnels_script.py** will pull funnel data for the previous seven days while the **raw_export_script.py** will pull event data for the previous day. These date ranges can also be changed by editing the appropriate variables, so that data for other date ranges can be pulled as required.
 
-##Lift off!
+## Lift off!
 Once you have installed the dependencies and changed the relevant variables as described above, go ahead and run the scripts!
 
 After running *funnels_script.py* and *raw_export_script.py*, you should see 5 tables in your Postgres database beautifully populated with the relevant columns and Mixpanel data.
