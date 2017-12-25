@@ -3,7 +3,7 @@
  ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
  ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
  
-Python scripts that pull data from Mixpanel using the Mixpanel API 📡. It then extracts the relevant data and inserts it into various tables in a Postgres DB.
+Python scripts that pull data from Mixpanel using the Mixpanel API 📡. It then extracts the relevant data and inserts it into various tables in PostgreSQL.
 
 It consist of two main runnable scripts:
 
@@ -96,6 +96,6 @@ By default **funnels_script.py** will pull funnel data for the previous seven da
 ## Lift off!
 Once you have installed the dependencies and changed the relevant variables as described above, go ahead and run the scripts!
 
-After running *funnels_script.py* and *raw_export_script.py*, you should see 5 tables in your Postgres database beautifully populated with the relevant columns and Mixpanel data.
+After running *funnels_script.py* and *raw_export_script.py*, you should see five tables in your Postgres database beautifully populated with the relevant columns and Mixpanel data.
 
 [install]: http://initd.org/psycopg/docs/install.html  "How to Install Psycopg2"
