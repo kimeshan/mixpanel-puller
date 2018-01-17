@@ -1,19 +1,21 @@
 #Script to pull funnel data and write to funnel_trans (funnel transacations)
 #table on Postgres DB
-from datetime import date,timedelta, datetime
+from datetime import date,timedelta
 import mixpanel_puller,to_postgres
-import json
 import psycopg2
+import sys
+import os
 
-print "Starting script to pull funnel data from Mixpanel and write to database..."
+print("Starting script to pull funnel data from Mixpanel and write to database...")
 
-#OneAfricaMedia Mixpanel key
-api_key = "INSERT YOUR MIXPANEL KEY HERE"
-api_secret = "INSERT YOUR MIXPANEL SECRET HERE"
+#Mixpanel credentials
+# CHECK AUTH METHOD, NOT VALID ANYMORE
+api_key = os.environ['TO DELETE']
+api_secret = os.environ['MIXPANEL_SECRET']
 
 #Pull funnel list
-print "Pulling funnel list, request sent to Mixpanel.com:"
-funnel_list = mixpanel_puller.list_funnels(api_key,api_secret)
+print("Pulling funnel list, request sent to Mixpanel:")
+funnel_list = mixpanel_puller.list_funnels(api_secret)
 
 #Set parameters to pull funnel data
 length  = 60
@@ -23,11 +25,11 @@ yesterday = date.today()-timedelta(days=1)
 
 #Database operations
 #1. Connect to Postgres database
-hostname = "localhost"
-db= "postgres"
-name = "postgres"
-pw = "test"
-con,cur = to_postgres.connect_db(hostname,db,name,pw)
+hostname = os.environ['POSTGRES_HOST']
+db= os.environ['POSTGRES_DB']
+user = os.environ['POSTGRES_USER']
+pw = os.environ['POSTGRES_PW']
+con,cur = to_postgres.connect_db(hostname,db,user,pw)
 
 #2.Create funnel_trans table if it does not already exist
 to_postgres.create_funnel_table(con,cur)
@@ -35,11 +37,22 @@ to_postgres.create_funnel_table(con,cur)
 #3.Insert funnel data into funnel_trans table
 try:   
     #Update funnel_trans table
-    print "Writing funnel data to funnel_trans table.."
+    print("Writing funnel data to funnel_trans table..")
+
     for each in funnel_list:
+
         funnel_id,funnel_name = each["funnel_id"],each["name"]        
-        funnel_data = mixpanel_puller.pull_funnels(funnel_id,length,interval,seven_days_ago,yesterday,api_key,api_secret);
-        print "Funnel data received.\n"
+        funnel_data = mixpanel_puller.pull_funnels(
+            funnel_id,
+            length,
+            interval,
+            seven_days_ago,
+            yesterday,
+            api_key,
+            api_secret
+        )
+        print("Funnel data received.\n")
+
         for date in funnel_data["meta"]["dates"]:
             date_data = funnel_data["data"][date]
             completion = funnel_data["data"][date]["analysis"]["completion"]
@@ -47,7 +60,7 @@ try:
             steps = funnel_data["data"][date]["analysis"]["steps"]
             worst = funnel_data["data"][date]["analysis"]["worst"]
             #Loop through steps, cater for max of 4 steps (to match database schema)
-            step_data = [["",0,0.0,0.0],["",0,0.0,0.0],["",0,0.0,0.0],["",0,0.0,0.0]] #Cater for a maximum of 4 steps
+            step_data = [["",0,0.0,0.0],["",0,0.0,0.0],["",0,0.0,0.0],["",0,0.0,0.0]]
             steps_dicts = date_data["steps"]
             for step in range(steps):
                 step_data[step] = [steps_dicts[step]["goal"],steps_dicts[step]["count"],
@@ -64,16 +77,16 @@ try:
                         step_data[2][0],step_data[2][1],step_data[2][2],step_data[2][3],
                         step_data[3][0],step_data[3][1],step_data[3][2],step_data[3][3]))
     con.commit()
-    print "funnel_trans table updated successfully."
+    print("funnel_trans table updated successfully.")
 
-except psycopg2.DatabaseError, e:
+except psycopg2.DatabaseError as e:
     #If database error, let's rollback any changes.
     if con:
         con.rollback()
-    print 'Error %s' % e
+    print("Error %s") % e
     sys.exit(1)
 
 finally:
     if con:
         con.close
-        print "Connection to database closed."        
+        print("Connection to database closed.")
