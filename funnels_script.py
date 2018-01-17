@@ -27,10 +27,10 @@ yesterday = date.today()-timedelta(days=1)
 # Database operations
 # 1. Connect to Postgres database
 hostname = os.environ['POSTGRES_HOST']
-db= os.environ['POSTGRES_DB']
+db = os.environ['POSTGRES_DB']
 user = os.environ['POSTGRES_USER']
 pw = os.environ['POSTGRES_PW']
-con,cur = to_postgres.connect_db(hostname, db, user, pw)
+con, cur = to_postgres.connect_db(hostname, db, user, pw)
 
 # 2.Create funnel_trans table if it does not already exist
 to_postgres.create_funnel_table(con, cur)
