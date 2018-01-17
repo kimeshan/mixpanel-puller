@@ -8,7 +8,7 @@ import os
 
 # Mixpanel credentials
 # CHECK AUTH METHOD, NOT VALID ANYMORE
-api_key = os.environ['TO DELETE']
+api_key = os.environ['MIXPANEL_KEY']
 api_secret = os.environ['MIXPANEL_SECRET']
 
 # To log time taken to export all raw event data for the day

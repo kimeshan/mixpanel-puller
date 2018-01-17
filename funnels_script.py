@@ -11,7 +11,7 @@ print("Starting script to pull funnel data from Mixpanel and write to database..
 
 # Mixpanel credentials
 #  CHECK AUTH METHOD, NOT VALID ANYMORE
-api_key = os.environ['TO DELETE']
+api_key = os.environ['MIXPANEL_KEY']
 api_secret = os.environ['MIXPANEL_SECRET']
 
 # Pull funnel list
